@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_quizzer/question.dart';
+import 'package:flutter_quizzer/quizzbrain.dart';
 
 // final List<String> list_questions = ["1 . TRUE ", "2 . FALSE", "3. TRUE"];
 // final List<bool> list_reponses = [true, false, true];
-
-final List<Question> list_questions_reponses = [
-  Question(texte: "1 . TRUE", reponse: true),
-  Question(texte: "2 . FALSE", reponse: false),
-  Question(texte: "3 . TRUE", reponse: true),
-];
+final QuizzBrain qb = QuizzBrain();
 
 class Quizz extends StatefulWidget {
   const Quizz({super.key});
@@ -19,11 +14,10 @@ class Quizz extends StatefulWidget {
 
 class _QuizzState extends State<Quizz> {
   List<Icon> list_icon = [];
-  int current_question_index = 0;
 
   handleClick(bool reponse) {
     setState(() {
-      if (reponse == list_questions_reponses[current_question_index].reponse) {
+      if (reponse == qb.getReponse()) {
         list_icon.add(
           Icon(
             Icons.check,
@@ -38,12 +32,7 @@ class _QuizzState extends State<Quizz> {
           ),
         );
       }
-      if (current_question_index == list_questions_reponses.length - 1) {
-        current_question_index = 0;
-        list_icon = [];
-      } else {
-        current_question_index++;
-      }
+      qb.nextQuestion(context);
     });
   }
 
@@ -54,9 +43,7 @@ class _QuizzState extends State<Quizz> {
       child: Column(children: [
         Expanded(
           flex: 5,
-          child: Center(
-            child: Text(list_questions_reponses[current_question_index].texte),
-          ),
+          child: Center(child: Text(qb.getQuestionText())),
         ),
         Expanded(
           child: Container(

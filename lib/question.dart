@@ -1,6 +1,14 @@
 class Question {
-  String texte;
-  bool reponse;
+  String _texte;
+  bool _reponse;
 
-  Question({required this.texte, required this.reponse});
+  Question(this._texte, this._reponse);
+
+  getQuestionText() {
+    return _texte;
+  }
+
+  getQuestionReponse() {
+    return _reponse;
+  }
 }
